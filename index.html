@@ -66,6 +66,18 @@
             text-decoration: line-through;
         }
     </style>
+    .concluida {
+    background-color: #b9e6c3;
+    text-decoration: line-through;
+}
+
+.tarefa.arrastando {
+    opacity: 0.5;
+}
+
+.lista-tarefas.arrastar-sobre {
+    background-color: #e8f0fe;
+}
 </head>
 
 <body>
@@ -140,6 +152,56 @@
         </section>
 
     </main>
+<script>
 
+    // Seleciona todas as tarefas
+    const tarefas = document.querySelectorAll('.tarefa');
+
+    // Seleciona todas as colunas
+    const colunas = document.querySelectorAll('.lista-tarefas');
+
+
+    // Adiciona os eventos para cada tarefa
+    tarefas.forEach(tarefa => {
+
+        tarefa.addEventListener('dragstart', () => {
+            tarefa.classList.add('arrastando');
+        });
+
+        tarefa.addEventListener('dragend', () => {
+            tarefa.classList.remove('arrastando');
+        });
+
+    });
+
+
+    // Permite soltar as tarefas dentro das colunas
+    colunas.forEach(coluna => {
+
+        coluna.addEventListener('dragover', (evento) => {
+            evento.preventDefault();
+
+            coluna.classList.add('arrastar-sobre');
+        });
+
+
+        coluna.addEventListener('dragleave', () => {
+            coluna.classList.remove('arrastar-sobre');
+        });
+
+
+        coluna.addEventListener('drop', () => {
+
+            const tarefaArrastando =
+                document.querySelector('.arrastando');
+
+            coluna.appendChild(tarefaArrastando);
+
+            coluna.classList.remove('arrastar-sobre');
+        });
+
+    });
+
+</script>
 </body>
 </html>
