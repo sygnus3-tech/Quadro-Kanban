@@ -54,7 +54,7 @@
             padding: 15px;
             margin-top: 12px;
             border-radius: 6px;
-            cursor: pointer;
+            cursor: grab;
             transition: 0.2s;
         }
 
@@ -62,15 +62,18 @@
             transform: scale(1.03);
         }
 
+        /* Estilo das tarefas concluídas */
         .concluida {
             background-color: #b9e6c3;
             text-decoration: line-through;
         }
 
+        /* Efeito enquanto a tarefa está sendo arrastada */
         .tarefa.arrastando {
             opacity: 0.5;
         }
 
+        /* Efeito visual quando uma tarefa está sobre uma coluna */
         .lista-tarefas.arrastar-sobre {
             background-color: #e8f0fe;
         }
@@ -137,7 +140,7 @@
 
 
         <!-- Coluna Concluído -->
-        <section class="coluna lista-tarefas">
+        <section class="coluna lista-tarefas" id="concluido">
             <h2>✅ Concluído</h2>
 
             <div class="tarefa concluida" draggable="true">
@@ -161,43 +164,77 @@
         const colunas = document.querySelectorAll('.lista-tarefas');
 
 
-        // Adiciona os eventos para cada tarefa
+        // Adiciona os eventos de arrastar para cada tarefa
         tarefas.forEach(tarefa => {
 
             tarefa.addEventListener('dragstart', () => {
+
+                // Marca a tarefa que está sendo arrastada
                 tarefa.classList.add('arrastando');
+
             });
 
+
             tarefa.addEventListener('dragend', () => {
+
+                // Remove a marcação quando o arraste termina
                 tarefa.classList.remove('arrastando');
+
             });
 
         });
 
 
-        // Permite soltar as tarefas dentro das colunas
+        // Adiciona os eventos de soltar em cada coluna
         colunas.forEach(coluna => {
 
             coluna.addEventListener('dragover', (evento) => {
+
+                // Permite que a tarefa seja solta na coluna
                 evento.preventDefault();
 
+                // Adiciona efeito visual na coluna
                 coluna.classList.add('arrastar-sobre');
+
             });
 
 
             coluna.addEventListener('dragleave', () => {
+
+                // Remove o efeito visual ao sair da coluna
                 coluna.classList.remove('arrastar-sobre');
+
             });
 
 
             coluna.addEventListener('drop', () => {
 
+                // Encontra a tarefa que está sendo arrastada
                 const tarefaArrastando =
                     document.querySelector('.arrastando');
 
+
+                // Move a tarefa para a coluna onde foi solta
                 coluna.appendChild(tarefaArrastando);
 
+
+                // Verifica se a tarefa foi colocada em Concluído
+                if (coluna.id === 'concluido') {
+
+                    // Adiciona o estilo de tarefa concluída
+                    tarefaArrastando.classList.add('concluida');
+
+                } else {
+
+                    // Remove o estilo se a tarefa sair de Concluído
+                    tarefaArrastando.classList.remove('concluida');
+
+                }
+
+
+                // Remove o efeito visual da coluna
                 coluna.classList.remove('arrastar-sobre');
+
             });
 
         });
