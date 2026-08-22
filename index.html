@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,21 +66,15 @@
             background-color: #b9e6c3;
             text-decoration: line-through;
         }
-    
-    .concluida {
-    background-color: #b9e6c3;
-    text-decoration: line-through;
-}
 
-.tarefa.arrastando {
-    opacity: 0.5;
-}
+        .tarefa.arrastando {
+            opacity: 0.5;
+        }
 
-.lista-tarefas.arrastar-sobre {
-    background-color: #e8f0fe;
-}
-</style>
-    
+        .lista-tarefas.arrastar-sobre {
+            background-color: #e8f0fe;
+        }
+    </style>
 </head>
 
 <body>
@@ -106,9 +101,10 @@
             <div class="tarefa" draggable="true">
                 Fazer compras
             </div>
+
             <div class="tarefa" draggable="true">
-            Fazer compras no mercado
-</div>
+                Fazer compras no mercado
+            </div>
         </section>
 
 
@@ -116,11 +112,11 @@
         <section class="coluna lista-tarefas">
             <h2>🔄 Em Andamento</h2>
 
-            <div class="tarefa">
+            <div class="tarefa" draggable="true">
                 Fazer exercício da faculdade
             </div>
 
-            <div class="tarefa">
+            <div class="tarefa" draggable="true">
                 Organizar o quarto
             </div>
         </section>
@@ -130,11 +126,11 @@
         <section class="coluna lista-tarefas">
             <h2>⏳ Aguardando</h2>
 
-            <div class="tarefa">
+            <div class="tarefa" draggable="true">
                 Esperar entrega
             </div>
 
-            <div class="tarefa">
+            <div class="tarefa" draggable="true">
                 Aguardar resposta de e-mail
             </div>
         </section>
@@ -144,66 +140,69 @@
         <section class="coluna lista-tarefas">
             <h2>✅ Concluído</h2>
 
-            <div class="tarefa concluida">
+            <div class="tarefa concluida" draggable="true">
                 Tomar café da manhã
             </div>
 
-            <div class="tarefa concluida">
+            <div class="tarefa concluida" draggable="true">
                 Alimentar o cachorro
             </div>
         </section>
 
     </main>
-<script>
-
-    // Seleciona todas as tarefas
-    const tarefas = document.querySelectorAll('.tarefa');
-
-    // Seleciona todas as colunas
-    const colunas = document.querySelectorAll('.lista-tarefas');
 
 
-    // Adiciona os eventos para cada tarefa
-    tarefas.forEach(tarefa => {
+    <script>
 
-        tarefa.addEventListener('dragstart', () => {
-            tarefa.classList.add('arrastando');
-        });
+        // Seleciona todas as tarefas
+        const tarefas = document.querySelectorAll('.tarefa');
 
-        tarefa.addEventListener('dragend', () => {
-            tarefa.classList.remove('arrastando');
-        });
-
-    });
+        // Seleciona todas as colunas
+        const colunas = document.querySelectorAll('.lista-tarefas');
 
 
-    // Permite soltar as tarefas dentro das colunas
-    colunas.forEach(coluna => {
+        // Adiciona os eventos para cada tarefa
+        tarefas.forEach(tarefa => {
 
-        coluna.addEventListener('dragover', (evento) => {
-            evento.preventDefault();
+            tarefa.addEventListener('dragstart', () => {
+                tarefa.classList.add('arrastando');
+            });
 
-            coluna.classList.add('arrastar-sobre');
+            tarefa.addEventListener('dragend', () => {
+                tarefa.classList.remove('arrastando');
+            });
+
         });
 
 
-        coluna.addEventListener('dragleave', () => {
-            coluna.classList.remove('arrastar-sobre');
+        // Permite soltar as tarefas dentro das colunas
+        colunas.forEach(coluna => {
+
+            coluna.addEventListener('dragover', (evento) => {
+                evento.preventDefault();
+
+                coluna.classList.add('arrastar-sobre');
+            });
+
+
+            coluna.addEventListener('dragleave', () => {
+                coluna.classList.remove('arrastar-sobre');
+            });
+
+
+            coluna.addEventListener('drop', () => {
+
+                const tarefaArrastando =
+                    document.querySelector('.arrastando');
+
+                coluna.appendChild(tarefaArrastando);
+
+                coluna.classList.remove('arrastar-sobre');
+            });
+
         });
 
+    </script>
 
-        coluna.addEventListener('drop', () => {
-
-            const tarefaArrastando =
-                document.querySelector('.arrastando');
-
-            coluna.appendChild(tarefaArrastando);
-
-            coluna.classList.remove('arrastar-sobre');
-        });
-
-    });
-
-</script>
 </body>
 </html>
